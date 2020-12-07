@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<h3>トレースレベル</h3>
+
+<div class="form-group">
+    @using(Html.BeginForm(
+        "Debug",
+        "Home",
+        null,
+        FormMethod.Post))
+    {
+        @Html.TextBox("msg","")
+        <input type="submit" value="Debug" class="btn btn-default"/>
+    }
+</div>
+
+<div class="form-group">
+    @using (Html.BeginForm(
+        "Info",
+        "Home",
+        null,
+        FormMethod.Post))
+    {
+        @Html.TextBox("msg", "")
+        <input type="submit" value="Info" class="btn btn-default" />
+    }
+</div>
+
+<div class="form-group">
+    @using (Html.BeginForm(
+        "Warn",
+        "Home",
+        null,
+        FormMethod.Post))
+    {
+        @Html.TextBox("msg", "")
+        <input type="submit" value="Warn" class="btn btn-default" />
+    }
+</div>
+
+<div class="form-group">
+    @using (Html.BeginForm(
+        "Error",
+        "Home",
+        null,
+        FormMethod.Post))
+    {
+        @Html.TextBox("msg", "")
+        <input type="submit" value="Error" class="btn btn-default" />
+    }
+</div>

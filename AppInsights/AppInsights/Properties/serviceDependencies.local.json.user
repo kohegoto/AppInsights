@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "secrets1": {
+      "restored": true,
+      "restoreTime": "2020-12-07T06:22:03.2174078Z"
+    },
+    "appInsights1": {
+      "restored": true,
+      "restoreTime": "2020-12-07T06:22:04.2217199Z"
+    }
+  },
+  "parameters": {
+    "appInsights1.subscriptionId": {
+      "Name": "appInsights1.subscriptionId",
+      "Type": "subscription",
+      "Value": "2821cb00-09de-4066-8d69-f062a1235efc"
+    },
+    "appInsights1.resourceGroupName": {
+      "Name": "appInsights1.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "Hands-On-dev-rg"
+    }
+  }
+}
