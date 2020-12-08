@@ -124,3 +124,12 @@ C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\Microsoft
 C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\Microsoft.Configuration.ConfigurationBuilders.UserSecrets.dll
 C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\Microsoft.Configuration.ConfigurationBuilders.Base.xml
 C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\Microsoft.Configuration.ConfigurationBuilders.UserSecrets.xml
+C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\x86\KernelTraceControl.dll
+C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\x86\msdia140.dll
+C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\amd64\KernelTraceControl.dll
+C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\amd64\msdia140.dll
+C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\Microsoft.ApplicationInsights.EtwCollector.dll
+C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\Microsoft.Diagnostics.Tracing.TraceEvent.dll
+C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\Microsoft.ApplicationInsights.EtwCollector.pdb
+C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\Microsoft.ApplicationInsights.EtwCollector.xml
+C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\Microsoft.Diagnostics.Tracing.TraceEvent.xml

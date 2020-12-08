@@ -1,0 +1,254 @@
+<?xml version="1.0"?>
+<doc xml:lang="en">
+    <assembly>
+        <name>Microsoft.ApplicationInsights.EtwCollector</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.ApplicationInsights.EtwCollector.AITraceEventSession">
+            <summary>
+            A wrapper of <see cref="T:Microsoft.Diagnostics.Tracing.Session.TraceEventSession"/>.
+            </summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.EtwCollector.EtwListeningRequest">
+            <summary>
+            Represents a request to listen to specific ETW provider.
+            </summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.EtwCollector.EtwListeningRequest.ProviderName">
+            <summary>
+            Gets or sets the provider name to listen to.
+            </summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.EtwCollector.EtwListeningRequest.ProviderGuid">
+            <summary>
+            Gets or sets the guid of the provider to listen to.
+            </summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.EtwCollector.EtwListeningRequest.Level">
+            <summary>
+            Gets or sets the minimum level of an event that will be traced. 
+            </summary>
+            <remarks>
+            Events with level lower than the specified level will be silently discarded.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.EtwCollector.EtwListeningRequest.Keywords">
+            <summary>
+            Gets or sets the keywords that must be set on an event to be included in tracing.
+            </summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.EtwCollector.EtwListeningRequest.Validate(System.String@)">
+            <summary>
+            Verify this request is valid.
+            </summary>
+            <param name="errorMessage">Error message to display in case the request is invalid.</param>
+            <returns>True if the request is valid, otherwise false.</returns>
+            <exception cref="T:System.ArgumentNullException">Throws when the object is not valid.</exception>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.EtwCollector.EtwTelemetryModule">
+            <summary>
+            A module to trace data submitted via .NET framework <seealso cref="N:Microsoft.Diagnostics.Tracing.Session" /> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.EtwCollector.EtwTelemetryModule.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.ApplicationInsights.EtwCollector.EtwTelemetryModule"/> class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.EtwCollector.EtwTelemetryModule.Sources">
+            <summary>
+            Gets the list of ETW Provider listening requests (information about which providers should be traced).
+            </summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.EtwCollector.EtwTelemetryModule.Initialize(Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration)">
+            <summary>
+            Initializes the telemetry module and starts tracing ETW events specified via <see cref="P:Microsoft.ApplicationInsights.EtwCollector.EtwTelemetryModule.Sources"/> property.
+            </summary>
+            <param name="configuration">Module configuration.</param>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.EtwCollector.EtwTelemetryModule.Dispose">
+            <summary>
+            Disposes the module.
+            </summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.EtwCollector.EtwTelemetryModule.Dispose(System.Boolean)">
+            <summary>
+            Disposes the module.
+            </summary>
+            <param name="isDisposing">Indicate if it is called by Dispose().</param>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.EtwCollector.Implemenetation.TraceEventExtensions.AddProperty(Microsoft.ApplicationInsights.DataContracts.TraceTelemetry,System.String,System.String)">
+            <summary>
+            Adds a property to a telemetry item.
+            </summary>
+            <param name="telemetry">Telemetry item that receives a new property.</param>
+            <param name="name">Property name.</param>
+            <param name="value">Property value.</param>
+            <remarks>There is a potential of naming conflicts between standard ETW properties (like Keywords, Channel)
+            and properties that are part of EventSource event payload. Because both end up in the same ITelemetry.Properties dictionary,
+            we need some sort of conflict resolution. When calling into this method, property name will be suffixed with a random number when duplicated name exists.</remarks>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.EtwCollector.ITraceEventSession">
+            <summary>
+            Abstracts properties and methods of <see cref="T:Microsoft.Diagnostics.Tracing.Session.TraceEventSession"/> to provide better test ability.
+            </summary>
+        </member>
+        <member name="P:Microsoft.ApplicationInsights.EtwCollector.ITraceEventSession.Source">
+            <summary>
+            Gets the TraceEventDispatcher for the session.
+            </summary>
+            <remarks>
+            If this is a real time session you can fetch the source associated with the session
+            to start receiving events. Currently does not work on file based sources (we
+            expect you to wait until the file is complete).
+            </remarks>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.EtwCollector.ITraceEventSession.EnableProvider(System.String,Microsoft.Diagnostics.Tracing.TraceEventLevel,System.UInt64,Microsoft.Diagnostics.Tracing.Session.TraceEventProviderOptions)">
+            <summary>
+            Enables a provider by its name, level and keywords.
+            </summary>
+            <param name="providerName">
+            The name of the provider.
+            </param>
+            <param name="providerLevel">
+            The verbosity to turn on.
+            </param>
+            <param name="matchAnyKeywords">
+            A bit vector representing the areas to turn on. Only the low 32 bits are used
+            by classic providers and passed as the 'flags' value. Zero is a special value
+            which is a provider defined default, which is usually 'everything'.
+            </param>
+            <param name="options">
+            Additional options for the provider (e.g. taking a stack trace), arguments ...
+            </param>
+            <returns>true if the session already existed and needed to be restarted.</returns>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.EtwCollector.ITraceEventSession.EnableProvider(System.Guid,Microsoft.Diagnostics.Tracing.TraceEventLevel,System.UInt64,Microsoft.Diagnostics.Tracing.Session.TraceEventProviderOptions)">
+            <summary>
+            Enable a provider which has a given provider Guid.
+            </summary>
+            <param name="providerGuid">The Guid that represents the event provider enable.</param>
+            <param name="providerLevel">The verbosity to turn on.</param>
+            <param name="matchAnyKeywords">
+            A bit vector representing the areas to turn on. Only the low 32 bits are used
+            by classic providers and passed as the 'flags' value. Zero is a special value
+            which is a provider defined default, which is usually 'everything'.
+            </param>
+            <param name="options">Additional options for the provider (e.g. taking a stack trace), arguments ...</param>
+            <returns>true if the session already existed and needed to be restarted.</returns>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.EtwCollector.ITraceEventSession.DisableProvider(System.String)">
+            <summary>
+            Disables a provider with the given name completely.
+            </summary>
+            <param name="providerName">Name of the provider to disable.</param>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.EtwCollector.ITraceEventSession.DisableProvider(System.Guid)">
+            <summary>
+            Disables a provider with the given provider ID completely.
+            </summary>
+            <param name="providerGuid">GUID of the provider to disable.</param>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.TraceEvent.Shared.Implementation.EventSourceListenerEventSource">
+            <summary>
+            EventSource for reporting errors and warnings from the EventSourceListener telemetry module.
+            </summary>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.TraceEvent.Shared.Utilities.ActivityPathDecoder">
+            <summary>
+            A class to decode ETW Activity ID GUIDs into activity paths.
+            </summary>
+            <remarks>
+            TODO: currently uses unsafe code. Will have to be refactored to safe code for partially-trusted environments like SharePoint. 
+            </remarks>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.TraceEvent.Shared.Utilities.ActivityPathDecoder.NumberListCodes">
+            <summary>
+            The encoding for a list of numbers used to make Activity  Guids.   Basically
+            we operate on nibbles (which are nice because they show up as hex digits).  The
+            list is ended with a end nibble (0) and depending on the nibble value (Below)
+            the value is either encoded into nibble itself or it can spill over into the
+            bytes that follow.   
+            </summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.TraceEvent.Shared.Utilities.ActivityPathDecoder.IsActivityPath(System.Guid,System.Int32)">
+            <summary>
+            Checks whether the passed activity GUID represents an activity path.
+            </summary>
+            /// <param name="guid">Activity GUID to check.</param>
+            <param name="processID">ID of the process.</param>        
+            <remarks>
+            You can pass a process ID of 0 to this routine and it will do the best it can, but the possibility
+            of error is significantly higher (but still under .1%).
+            </remarks>
+            <returns>True if 'guid' follow the EventSource style activity ID for the process with ID processID, otherwise false.</returns>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.TraceEvent.Shared.Utilities.ActivityPathDecoder.GetActivityPathString(System.Guid)">
+            <summary>
+            Returns a string representation for the activity path. 
+            </summary>
+            <param name="guid">Activity path to convert to string representation.</param>
+            <remarks>
+            If the GUID is not an activity path then the method returns the normal string representation for a GUID.
+            </remarks>
+            <returns>String representation for the activity path.</returns>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.TraceEvent.Shared.Utilities.ActivityPathDecoder.ActivityPathProcessID(System.Guid)">
+            <summary>
+            Extracts process ID from an activity path.
+            </summary>
+            <param name="guid">Activity GUID.</param>
+            <returns>Process ID part of the activity path.</returns>
+            <remarks>The method assumes the passed GUID is in fact and activity path.</remarks>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.TraceEvent.Shared.Utilities.StringBuilderCache">
+            <summary>
+            Provides a cached reusable instance of a StringBuilder per thread. It is an optimization that reduces the number of instances constructed and collected.
+            </summary>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.TraceEvent.Shared.Utilities.StringBuilderCache.Acquire(System.Int32)">
+            <summary>
+            Gets a string builder to use of a particular size.
+            </summary>
+            <param name="capacity">Initial capacity of the requested StringBuilder.</param>
+            <returns>An instance of a StringBuilder.</returns>
+            <remarks>
+            It can be called any number of times. If a StringBuilder is in the cache then it will be returned and the cache emptied.
+            A StringBuilder instance is cached in Thread Local Storage and so there is one per thread.
+            Subsequent calls will return a new StringBuilder. 
+            </remarks>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.TraceEvent.Shared.Utilities.StringBuilderCache.Release(System.Text.StringBuilder)">
+            <summary>
+            Place the specified builder in the cache if it is not too big. 
+            </summary>
+            <param name="sb">StringBuilder that is no longer used.</param>
+            <remarks>
+            The StringBuilder should not be used after it has been released. Unbalanced Releases are perfectly acceptable. 
+            It will merely cause the runtime to create a new StringBuilder next time Acquire is called.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.ApplicationInsights.TraceEvent.Shared.Utilities.StringBuilderCache.GetStringAndRelease(System.Text.StringBuilder)">
+            <summary>
+            Gets the resulting string and releases a StringBuilder instance.
+            </summary>
+            <param name="sb">StringBuilder to be released.</param>
+            <returns>The output of the <paramref name="sb"/> StringBuilder.</returns>
+        </member>
+        <member name="T:Microsoft.ApplicationInsights.TraceEvent.Shared.Utilities.TplActivities">
+            <summary>
+            Provides well-known values for working with Task Parallel Library (TPL) EventSource.
+            </summary>
+        </member>
+        <member name="F:Microsoft.ApplicationInsights.TraceEvent.Shared.Utilities.TplActivities.TplEventSourceGuid">
+            <summary>
+            Gets the GUID of the TPL EventSource.
+            </summary>
+        </member>
+        <member name="F:Microsoft.ApplicationInsights.TraceEvent.Shared.Utilities.TplActivities.TaskFlowActivityIdsKeyword">
+            <summary>
+            Gets the keyword that enables hierarchical activity IDs.
+            </summary>
+        </member>
+    </members>
+</doc>
