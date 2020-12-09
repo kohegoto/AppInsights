@@ -5,14 +5,22 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using log4net;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.ApplicationInsights.Extensibility.PerfCounterCollector;
 
 namespace AppInsights.Controllers
 {
     public class HomeController : Controller
     {
+
         
         public ActionResult Index()
         {
+            var perfCollectorModule = new PerformanceCollectorModule();
+            perfCollectorModule.Counters.Add(new PerformanceCounterCollectionRequest(
+              @"\Process([replace-with-application-process-name])\Page Faults/sec", "PageFaultsPerfSec"));
+            perfCollectorModule.Initialize(TelemetryConfiguration.Active);
+
             log4net.Config.XmlConfigurator.Configure();
             var logger = LogManager.GetLogger(typeof(ActionResult));
             logger.Info("Index info");

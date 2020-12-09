@@ -133,3 +133,5 @@ C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\Microsoft
 C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\Microsoft.ApplicationInsights.EtwCollector.pdb
 C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\Microsoft.ApplicationInsights.EtwCollector.xml
 C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\Microsoft.Diagnostics.Tracing.TraceEvent.xml
+C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\Microsoft.ApplicationInsights.SnapshotCollector.dll
+C:\Users\kohegoto\source\repos\AppInsights\AppInsights\AppInsights\bin\Microsoft.ApplicationInsights.SnapshotCollector.xml
